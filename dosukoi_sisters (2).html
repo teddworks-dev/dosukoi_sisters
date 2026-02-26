@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOSUKOI SISTERS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f0e8;
+    --warm-gray: #d6d0c8;
+    --dark: #1a1a1a;
+    --blue-accent: #2a4a9e;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', 'Noto Serif JP', serif;
+    background: var(--cream);
+    color: var(--dark);
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Centered content wrapper */
+  .inner {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 72px);
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+  }
+  @media (max-width: 600px) {
+    .hero { aspect-ratio: 4/3; }
+  }
+  .hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-logo {
+    position: absolute;
+    top: clamp(12px, 2.5vw, 28px);
+    left: clamp(12px, 2.5vw, 28px);
+    width: 16vw;
+    opacity: 0;
+    animation: fadeDown 0.8s 0.3s forwards;
+  }
+  .hero-logo img { width: 100%; display: block; }
+
+  /* ─── NEW ARRIVAL ─── */
+  .new-arrival {
+    background: var(--cream);
+    padding: clamp(40px, 6vw, 80px) 0 clamp(48px, 7vw, 90px);
+    text-align: center;
+  }
+  .section-title {
+    font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    font-weight: 800;
+    font-size: clamp(22px, 3.5vw, 38px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: clamp(24px, 3vw, 40px);
+    position: relative;
+    display: inline-block;
+  }
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--dark);
+    margin: 10px auto 0;
+  }
+  .product-card {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(16px, 3vw, 44px);
+    text-align: left;
+    background: white;
+    border-radius: 4px;
+    padding: clamp(16px, 3vw, 40px);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .product-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .product-img {
+    width: clamp(96px, 16vw, 200px);
+    flex-shrink: 0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .product-img img { width: 100%; display: block; }
+  .product-info h3 {
+    font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    font-weight: 700;
+    font-size: clamp(12px, 1.5vw, 17px);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    color: var(--dark);
+  }
+  .product-info p {
+    font-size: clamp(12px, 1.3vw, 15px);
+    line-height: 2;
+    color: #555;
+    font-weight: 300;
+  }
+
+  /* ─── BRAND CONCEPT ─── */
+  .brand-concept {
+    position: relative;
+    min-height: clamp(360px, 52vw, 620px);
+    overflow: hidden;
+    background: var(--warm-gray);
+  }
+  .brand-bg-layer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #c8c2ba 0%, #b8b2aa 50%, #a8a29a 100%);
+    z-index: 0;
+  }
+  .brand-bg-dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: 1;
+  }
+  .sumo-photo {
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: clamp(55%, 62%, 70%);
+    height: 100%;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .sumo-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: grayscale(100%) contrast(1.1);
+    mix-blend-mode: multiply;
+    opacity: 0.85;
+  }
+  .sumo-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(180,174,166,1) 0%, rgba(180,174,166,0.15) 55%, transparent 100%);
+    z-index: 3;
+  }
+  .brand-content {
+    position: relative;
+    z-index: 10;
+    padding: clamp(36px, 6vw, 80px) 0;
+  }
+  .brand-content .section-title {
+    color: var(--white);
+    text-align: left;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.3);
+  }
+  .brand-content .section-title::after {
+    background: rgba(255,255,255,0.55);
+    margin: 10px 0 0;
+  }
+  .brand-tagline {
+    margin-top: clamp(16px, 2.5vw, 28px);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(13px, 1.7vw, 20px);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.7;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.35);
+    letter-spacing: 0.04em;
+  }
+  .brand-tagline-ja {
+    margin-top: clamp(14px, 2vw, 24px);
+    font-size: clamp(11px, 1.3vw, 15px);
+    color: rgba(255,255,255,0.85);
+    line-height: 2;
+    font-weight: 300;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+  }
+  .brand-deco {
+    position: absolute;
+    bottom: 8px;
+    right: 1.5%;
+    font-family: 'Futura', 'Century Gothic', sans-serif;
+    font-size: clamp(80px, 13vw, 200px);
+    font-weight: 800;
+    color: rgba(255,255,255,0.06);
+    z-index: 5;
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+
+  /* ─── ONLINE SHOP ─── */
+  .online-shop {
+    background: var(--cream);
+    padding: clamp(48px, 7vw, 100px) 0;
+    text-align: center;
+  }
+  .shop-more {
+    display: inline-block;
+    margin-top: clamp(20px, 3vw, 32px);
+    font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    font-weight: 700;
+    font-size: clamp(14px, 1.8vw, 20px);
+    letter-spacing: 0.08em;
+    color: var(--blue-accent);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .shop-more::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--blue-accent);
+    transform: scaleX(0.4);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .shop-more:hover::after { transform: scaleX(1); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #eee9e0;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    padding: clamp(18px, 2.5vw, 32px) 16px;
+    text-align: center;
+  }
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px clamp(12px, 2vw, 24px);
+    margin-bottom: 10px;
+  }
+  .footer-links a {
+    font-size: clamp(10px, 1vw, 12px);
+    color: #666;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .footer-links a:hover { text-decoration: underline; }
+  .footer-copy {
+    font-size: clamp(10px, 0.9vw, 12px);
+    color: #999;
+    letter-spacing: 0.03em;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="hero.png" alt="DOSUKOI SISTERS bags on rack">
+  <div class="hero-logo">
+    <img src="logo.png" alt="DOSUKOI SISTERS">
+  </div>
+</section>
+
+<!-- NEW ARRIVAL -->
+<section class="new-arrival">
+  <div class="inner">
+    <h2 class="section-title reveal">NEW ARRIVAL</h2>
+    <div class="product-card reveal">
+      <div class="product-img">
+        <img src="sacoche_lightgray.png" alt="sacoche LIGHT GRAY">
+      </div>
+      <div class="product-info">
+        <h3>sacoche -LIGHT GRAY-</h3>
+        <p>おなじみのサコッシュに、新カラー「LIGHT GRAY」が登場。<br><br>落ち着いたグレーであるため、様々なお洋服に馴染みます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND CONCEPT -->
+<section class="brand-concept">
+  <div class="brand-bg-layer"></div>
+  <div class="brand-bg-dots"></div>
+
+  <div class="sumo-photo">
+    <img src="sumo.png" alt="DOSUKOI spirit">
+  </div>
+
+  <span class="brand-deco">胴</span>
+
+  <div class="brand-content">
+    <div class="inner">
+      <h2 class="section-title">BRAND CONCEPT</h2>
+      <p class="brand-tagline">Portare lo spirito "DOSUKOI"<br>nel mondo della moda.</p>
+      <p class="brand-tagline-ja">世界に最先端の"どすこい"ファッションと<br>豊かさをお届けします。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ONLINE SHOP -->
+<section class="online-shop">
+  <div class="inner">
+    <h2 class="section-title reveal">ONLINE SHOP</h2>
+    <a href="#" class="shop-more reveal">more...&gt;&gt;</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <nav class="footer-links">
+    <a href="#">会社概要</a>
+    <a href="#">利用規約</a>
+    <a href="#">個人情報保護方針</a>
+    <a href="#">Cookieポリシー</a>
+    <a href="#">特定商取引法に基づく通販表記</a>
+    <a href="#">ヘルプ</a>
+  </nav>
+  <p class="footer-copy">Copyright © H&amp;R Co., Ltd. All rights reserved.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Parallax on sumo photo
+  const sumoPhoto = document.querySelector('.sumo-photo');
+  window.addEventListener('scroll', () => {
+    const section = document.querySelector('.brand-concept');
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    const progress = -rect.top / rect.height;
+    if (progress > -0.5 && progress < 1.5) {
+      sumoPhoto.style.transform = `translateY(${progress * 30}px)`;
+    }
+  }, { passive: true });
+</script>
+</body>
+</html>
